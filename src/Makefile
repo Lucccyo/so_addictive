@@ -1,5 +1,5 @@
 libaddition.so: addition.ml
-	ocamlopt -output-complete-obj -runtime-variant=_pic  addition.ml -o libaddition.so
+	ocamlopt -output-complete-obj -runtime-variant=_pic  addition.ml -o $@
 
 test.exe: main.c libaddition.so
 	gcc -o test.exe -I/home/cha/.opam/default/lib/ocaml -L. -laddition  main.c
