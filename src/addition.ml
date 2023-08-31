@@ -1,6 +1,12 @@
 let addition x y = x + y 
 
-let id x = x 
+let d = ref None
+
+let join _ = 
+  (match !d with
+  | None -> assert false
+  | Some d -> Domain.join d); 2 
+
 
 let sum_square x y = 
   let square n = n * n in
@@ -20,9 +26,10 @@ let pascal l =
 
 let rec infinit_pascal l = infinit_pascal (pascal l)
 
-let para_tasks _ =
-  let d = Domain.spawn (fun _ -> infinit_pascal []) in 
-  (*sleep*) 1
+let spawn _ =
+  d := Some (Domain.spawn (fun _ -> Unix.sleep(5)));
+  (*sleep*) 
+  1
   
 
 
@@ -52,8 +59,8 @@ let rec sum_list l =
   | hd :: tl -> hd + sum_list tl*)
 
 let _ = Callback.register "ocaml_addition" addition
-let _ = Callback.register "ocaml_identity" id
-let _ = Callback.register "ocaml_para" para_tasks
+let _ = Callback.register "ocaml_join" join
+let _ = Callback.register "ocaml_spawn" spawn
 let _ = Callback.register "ocaml_sum_square" sum_square
 (*let _ = Callback.register "ocaml_sum_two_list" sum_two_list
 let _ = Callback.register "ocaml_add_to_list" add_to_list
